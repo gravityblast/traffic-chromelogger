@@ -7,19 +7,18 @@ import (
 
 type ChromeLoggerMiddleware struct {}
 
-var Logger *chromeLogger
-
 func (middleware ChromeLoggerMiddleware) ServeHTTP(w http.ResponseWriter, r *http.Request, next traffic.NextMiddlewareFunc) (http.ResponseWriter, *http.Request) {
-  Logger = newLogger()
+  logger := newLogger()
 
   flushed := false
 
   flush := func() {
-    w.Header().Set("X-ChromeLogger-Data", Logger.Export())
+    w.Header().Set("X-ChromeLogger-Data", logger.Export())
     flushed = true
   }
 
   arw := w.(*traffic.AppResponseWriter)
+  arw.SetVar("chromelogger", logger)
   arw.AddBeforeWriteHandler(flush)
 
   if nextMiddleware := next(); nextMiddleware != nil {

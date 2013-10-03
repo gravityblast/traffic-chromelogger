@@ -9,13 +9,15 @@ import (
 )
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {
-  chromelogger.Logger.Log("Hello")
+  arw := w.(*traffic.AppResponseWriter)
+  logger := arw.GetVar("chromelogger").(*chromelogger.Logger)
 
-  chromelogger.Logger.Log(map[string]string{
+  logger.Log("Hello")
+  logger.Log(map[string]string{
     "foo": "bar",
   })
 
-  fmt.Fprint(w, "Hello World\n")
+  fmt.Fprint(w, "Hello, check your Chrome console after activating the Chrome Logger extension.\n")
 }
 
 func main() {

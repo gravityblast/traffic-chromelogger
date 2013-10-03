@@ -13,11 +13,11 @@ const LOG_TYPE_WARN  = "warn"
 const LOG_TYPE_ERROR = "error"
 const LOG_TYPE_INFO  = "info"
 
-type chromeLogger struct {
+type Logger struct {
   data *Data
 }
 
-func (logger *chromeLogger) add(item interface{}, logType string) {
+func (logger *Logger) add(item interface{}, logType string) {
   _, file, line, ok := runtime.Caller(2)
   var backtrace string
   if ok {
@@ -27,23 +27,23 @@ func (logger *chromeLogger) add(item interface{}, logType string) {
   logger.data.AddRow(item, backtrace, logType)
 }
 
-func (logger *chromeLogger) Log(item interface{}) {
+func (logger *Logger) Log(item interface{}) {
   logger.add(item, LOG_TYPE_LOG)
 }
 
-func (logger *chromeLogger) Warn(item interface{}) {
+func (logger *Logger) Warn(item interface{}) {
   logger.add(item, LOG_TYPE_WARN)
 }
 
-func (logger *chromeLogger) Error(item interface{}) {
+func (logger *Logger) Error(item interface{}) {
   logger.add(item, LOG_TYPE_ERROR)
 }
 
-func (logger *chromeLogger) Info(item interface{}) {
+func (logger *Logger) Info(item interface{}) {
   logger.add(item, LOG_TYPE_INFO)
 }
 
-func (logger chromeLogger) Export() string {
+func (logger Logger) Export() string {
   jsonBytes, err := json.Marshal(logger.data)
   if err != nil {
     return ""
@@ -55,8 +55,8 @@ func (logger chromeLogger) Export() string {
   return finalData
 }
 
-func newLogger() *chromeLogger {
-  logger := &chromeLogger{
+func newLogger() *Logger {
+  logger := &Logger{
     data: NewData(),
   }
 
