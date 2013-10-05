@@ -5,12 +5,11 @@ import (
   "fmt"
   "net/http"
   "github.com/pilu/traffic"
-  "github.com/pilu/chromelogger"
+  "github.com/pilu/traffic-chromelogger"
 )
 
-func rootHandler(w http.ResponseWriter, r *http.Request) {
-  arw := w.(*traffic.AppResponseWriter)
-  logger := arw.GetVar("chromelogger").(*chromelogger.Logger)
+func rootHandler(w traffic.ResponseWriter, r *http.Request) {
+  logger := w.GetVar("chromelogger").(*chromelogger.Logger)
 
   logger.Log("Hello")
   logger.Log(map[string]string{
