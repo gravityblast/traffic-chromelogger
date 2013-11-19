@@ -1,14 +1,12 @@
 package main
 
 import (
-  "log"
   "fmt"
-  "net/http"
   "github.com/pilu/traffic"
   "github.com/pilu/traffic-chromelogger"
 )
 
-func rootHandler(w traffic.ResponseWriter, r *http.Request) {
+func rootHandler(w traffic.ResponseWriter, r *traffic.Request) {
   logger := w.GetVar("chromelogger").(*chromelogger.Logger)
 
   logger.Log("Hello")
@@ -23,11 +21,5 @@ func main() {
   router := traffic.New()
   router.AddMiddleware(chromelogger.New())
   router.Get("/", rootHandler)
-
-  http.Handle("/", router)
-  err := http.ListenAndServe(":7000", nil)
-
-  if err != nil {
-    log.Fatal(err)
-  }
+  router.Run()
 }
