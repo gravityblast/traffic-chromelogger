@@ -19,7 +19,7 @@ func rootHandler(w traffic.ResponseWriter, r *traffic.Request) {
 
 func main() {
   router := traffic.New()
-  router.AddMiddleware(chromelogger.New())
+  router.Use(chromelogger.New())
   router.Get("/", rootHandler)
   router.Run()
 }
