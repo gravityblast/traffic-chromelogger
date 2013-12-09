@@ -1,6 +1,7 @@
 package chromelogger
 
 import (
+  "fmt"
   "github.com/pilu/traffic"
 )
 
@@ -29,4 +30,8 @@ func (w *responseWriter) WriteHeader(statusCode int) {
   }
 
   w.ResponseWriter.WriteHeader(statusCode)
+}
+
+func (w *responseWriter) WriteText(textFormat string, data ...interface{}) {
+  fmt.Fprintf(w, textFormat, data...)
 }

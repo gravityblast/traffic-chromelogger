@@ -1,7 +1,6 @@
 package main
 
 import (
-  "fmt"
   "github.com/pilu/traffic"
   "github.com/pilu/traffic-chromelogger"
 )
@@ -14,7 +13,7 @@ func rootHandler(w traffic.ResponseWriter, r *traffic.Request) {
     "foo": "bar",
   })
 
-  fmt.Fprint(w, "Hello, check your Chrome console after activating the Chrome Logger extension.\n")
+  w.WriteText("Hello, check your Chrome console after activating the Chrome Logger extension.\n")
 }
 
 func main() {
